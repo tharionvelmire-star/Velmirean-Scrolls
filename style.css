@@ -1,140 +1,165 @@
+/* ---------- RESET & BOX SIZING ---------- */
 * {
+  box-sizing: border-box; /* penting agar padding/margin tidak merusak ukuran */
   text-decoration: none;
   margin: 0;
   padding: 0;
 }
 
-body {
+html, body {
+  height: 100%;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-/* WRAPPER */
+/* ---------- WRAPPER ---------- */
 .wrapper {
   width: 1100px;
-  max-width: 100%;      /* NEW */
-  margin: auto;
-  padding: 0 20px;      /* NEW */
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-/* LOGO */
-.logo a {
-  font-size: 50px;
-  font-weight: 800;
-  float: left;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  color: #f7374f;
-}
-
-/* MENU */
-.menu {
-  float: right;
-}
-
+/* ---------- NAV (ubah jadi flex, hilangkan float) ---------- */
 nav {
   width: 100%;
-  display: flex;
-  line-height: 80px;
+  background: #fff;
   position: sticky;
   top: 0;
-  background: #fff;
-  z-index: 1;
+  z-index: 10;
   border-bottom: 1px solid #a31d1d;
 }
 
+/* gunakan wrapper di dalam nav sebagai kontainer flex */
+nav > .wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  line-height: 80px;
+}
+
+/* logo */
+.logo a {
+  font-size: 50px;
+  font-weight: 800;
+  color: #f7374f;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+
+/* menu */
+.menu {
+  /* tidak pakai float lagi */
+}
+
 nav ul {
-  list-style-type: none;
+  list-style: none;
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
 nav ul li {
-  float: left;
+  display: inline-block;
 }
 
 nav ul li a {
-  color: black;
+  color: #000;
   font-weight: bold;
-  padding: 0 16px;
+  padding: 6px 12px;
+  display: inline-block;
 }
 
 nav ul li a:hover {
   text-decoration: underline;
 }
 
-/* SECTION */
+/* ---------- SECTION LAYOUT (penting: flex-wrap) ---------- */
 section {
   margin: 50px auto;
   display: flex;
-  align-items: center;
-  gap: 30px;            /* NEW */
+  flex-wrap: wrap;         /* biar elemen turun, tidak nabrak */
+  align-items: flex-start; /* atas rapi */
+  gap: 30px;               /* jarak antara kolom dan gambar */
 }
 
+/* konten teks (kolom) */
 .kolom {
-  flex: 1;              /* NEW */
+  flex: 1 1 420px;         /* grow, shrink, basis -> mencegah terlalu kecil */
+  min-width: 260px;        /* jangan sampai terlalu kecil di HP */
+  margin-top: 10px;
 }
 
-/* TEKS */
+/* jika ada gambar yang berdiri sendiri di section (misal <img> langsung) */
+section > img,
+section img.gambar-khusus,
+section .gambar-aksi {
+  flex: 0 1 420px;         /* ukuran gambar maksimal basis 420px, bisa mengecil */
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* deskripsi & judul */
 .kolom .deskripsi {
   font-size: 20px;
-  font-weight: bold;
+  font-weight: 700;
   color: #f7374f;
+  margin-bottom: 8px;
 }
 
 h2 {
   font-size: 45px;
   color: #f7374f;
-  line-height: 50px;
+  line-height: 1.05;
+  margin-bottom: 12px;
 }
 
-/* BUTTON */
-a.tbl-biru {
-  background: #a31d1d;
+/* tombol */
+a.tbl-biru, a.tbl-pink {
+  display: inline-block;
   border-radius: 20px;
-  padding: 15px 20px;
+  padding: 12px 18px;
+  font-weight: 700;
+  margin-top: 12px;
   color: #fff;
-  font-weight: bold;
 }
 
-a.tbl-pink {
-  background: #ecdcbf;
-  border-radius: 20px;
-  padding: 15px 20px;
-  color: #fff;
-  font-weight: bold;
+a.tbl-biru { background: #a31d1d; }
+a.tbl-pink { background: #ecdcbf; color: #000; } /* warna teks dikembalikan agar terbaca */
+
+/* genre & comics list: gunakan gap dan item fleksibel */
+.genre-list,
+.comics-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%;
 }
 
-/* GAMBAR UMUM */
-img {
-  width: 100%;          /* NEW: otomatis responsif */
+/* gambar aksi khusus */
+.gambar-aksi {
+  max-width: 400px;
+  width: 100%;
   height: auto;
 }
 
-/* GAMBAR KHUSUS */
-.gambar-khusus {
-  max-width: 600px;     /* NEW */
-  width: 100%;          /* NEW */
-  height: auto;          /* NEW */
-  margin: 0 auto;
-}
-
-/* LIST */
-.genre-list,
-.comics-list {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;            /* NEW */
-}
-
+/* the-author: responsif, centering */
 .the-author {
-  width: 20%;
+  flex: 0 1 160px;    /* setiap author minimal 160px, bisa menurun */
   text-align: center;
+  padding: 10px;
 }
 
 .the-author img {
-  width: 150px;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
   border-radius: 50%;
+  display: block;
+  margin: 0 auto 8px auto;
 }
 
-/* FOOTER */
+/* footer */
 #Find-me {
   background: #ecdcbf;
   padding: 50px 0;
@@ -143,84 +168,68 @@ img {
 .footer {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;            /* NEW */
+  gap: 20px;
 }
 
 .footer-section {
-  width: 22%;
+  flex: 1 1 200px;
+  min-width: 220px;
 }
 
+/* heading kecil di footer */
 h3 {
-  font-size: 30px;
+  font-size: 24px;
   color: #f7374f;
+  margin-bottom: 8px;
 }
 
-/* COPYRIGHT */
+/* copyright */
 #copyright {
   text-align: center;
-  padding: 50px 0;
+  padding: 30px 0 60px 0;
 }
 
-/* ============================
-   RESPONSIVE (HP / TABLET)
-   ============================ */
-
+/* ---------- RESPONSIVE SMALL (tablet & HP) ---------- */
 @media screen and (max-width: 991px) {
-
-  /* NAV */
-  .logo a,
-  nav .menu ul {
-    text-align: center;
-    float: none;
-    width: 100%;
+  nav > .wrapper {
+    flex-direction: column;
+    gap: 8px;
+    line-height: normal;
+    padding: 12px 0;
   }
 
-  nav {
-    display: block;
-    line-height: 60px;
+  nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
-  nav ul li {
-    display: block;
-    margin: 10px 0;
-  }
-
-  /* HOME & SECTION */
+  /* section jadi blok - tapi tetap pakai gap dan min-width */
   section {
     display: block;
-    text-align: center;
   }
 
-  section img {
+  .kolom {
     width: 100%;
+    min-width: 0;
   }
 
-  /* AUTHOR LIST */
-  .the-author {
-    width: 45%;          /* NEW → jadi 2 baris di HP */
+  /* gambar khusus tidak terlalu besar */
+  section > img,
+  .gambar-khusus,
+  .gambar-aksi {
+    max-width: 100%;
   }
 
-  /* FOOTER */
-  .footer-section {
-    width: 45%;          /* NEW */
-  }
-
-  h2 {
-    font-size: 30px;
-  }
-
-  .gambar-khusus {
-    max-width: 100%;     /* NEW → biar tidak melebar */
-  }
+  .the-author { flex: 0 1 45%; min-width: 40%; }
+  .footer-section { flex: 0 1 45%; }
+  h2 { font-size: 36px; }
 }
 
-/* HP KECIL */
+/* ---------- VERY SMALL (ponsel kecil) ---------- */
 @media screen and (max-width: 600px) {
-  .the-author {
-    width: 100%;         /* NEW → 1 baris 1 item */
-  }
-
-  .footer-section {
-    width: 100%;         /* NEW */
-  }
+  .the-author { flex: 0 1 100%; }
+  .footer-section { flex: 0 1 100%; }
+  h2 { font-size: 28px; }
+  .logo a { font-size: 36px; }
+  .kolom { padding: 10px 0; }
 }
